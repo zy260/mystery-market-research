@@ -1,0 +1,23 @@
+# 悬疑推理书籍市场研究系统 — Python 依赖
+# ============================================
+# 安装: pip install -r requirements.txt
+
+# 数据采集
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0          # BeautifulSoup 解析器（更快）
+
+# 数据库
+PyMySQL>=1.1.0
+
+# 数据分析 + 可视化
+pandas>=2.1.0
+matplotlib>=3.8.0
+numpy>=1.26.0
+
+# LLM API 调用（DeepSeek 使用标准 OpenAI 兼容接口，用 urllib 即可）
+# 无需额外依赖
+
+# 工具库（可选）
+python-dotenv>=1.0.0   # 环境变量管理
+tqdm>=4.66.0           # 进度条显示
