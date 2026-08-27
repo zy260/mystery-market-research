@@ -21,3 +21,9 @@ numpy>=1.26.0
 # 工具库（可选）
 python-dotenv>=1.0.0   # 环境变量管理
 tqdm>=4.66.0           # 进度条显示
+
+# ===== Agent 增强（LangGraph + LangChain）=====
+# 安装后可启用真 Agent 模式（python main.py --agent）
+# 不安装也能运行（走降级管道，见 agent/run_agent.py）
+langgraph>=0.2.0       # Agent 状态机编排
+langchain-core>=0.3.0  # @tool 工具装饰器 / 消息类型

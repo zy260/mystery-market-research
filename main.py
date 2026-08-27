@@ -179,6 +179,14 @@ def run_from_file(filepath):
     return {"analysis": analysis_results, "insight": insight_result, "plan": plan_result}
 
 
+def run_agent(args):
+    """运行 LangGraph Agent 模式（--agent / --agent-ask）。"""
+    from agent.run_agent import dispatch
+    task = args.agent_ask or "对悬疑推理书籍市场做一次完整研究：采集数据、分析市场、生成洞察、制定排期"
+    logger.info(f"🧠 启动 Agent 任务：{task}")
+    return dispatch(task)
+
+
 # ==================== CLI 入口 ====================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -189,12 +197,16 @@ if __name__ == "__main__":
   python main.py --full              # 完整流程
   python main.py --collect-only      # 仅采集
   python main.py --from-file data/books_data.json  # 从文件分析
+  python main.py --agent             # LangGraph Agent 自主编排完整研究
+  python main.py --agent-ask "悬疑市场什么方向值得做？"  # 带目标一问一答
         """,
     )
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--full", action="store_true", help="运行完整流水线")
     group.add_argument("--collect-only", action="store_true", help="仅采集数据")
     group.add_argument("--from-file", type=str, help="从JSON文件加载并分析")
+    group.add_argument("--agent", action="store_true", help="用 LangGraph Agent 自主编排完整研究")
+    group.add_argument("--agent-ask", type=str, help="带具体目标给 Agent，让它自主规划完成")
     args = parser.parse_args()
 
     if args.full:
@@ -203,7 +215,9 @@ if __name__ == "__main__":
         run_collect_only()
     elif args.from_file:
         run_from_file(args.from_file)
+    elif args.agent or args.agent_ask:
+        run_agent(args)
     else:
         # 默认：显示帮助信息
         parser.print_help()
-        print("\n💡 提示: 使用 --full 运行完整流程，或 --collect-only 仅采集数据")
+        print("\n💡 提示: 使用 --full 运行完整流程，--agent 用 Agent 自主编排，或 --collect-only 仅采集数据")
